@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Readiness Assessment Quiz | Bridgette Enterprises</title>
+  <meta name="description" content="Take the 2-minute AI Readiness Assessment to score your business across data, process, team, tech, and strategy.">
+  <meta name="keywords" content="AI readiness quiz, AI assessment, business AI strategy, Bridgette Enterprises">
+  <meta name="author" content="Bridgette Enterprises">
+  <meta property="og:title" content="AI Readiness Assessment Quiz">
+  <meta property="og:description" content="How ready is your business for AI? Take the 2-minute assessment.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://wmiddendorff.github.io/ai-readiness-quiz/">
+  <meta property="og:site_name" content="Bridgette Enterprises">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI Readiness Assessment Quiz">
+  <meta name="twitter:description" content="How ready is your business for AI? Take the 2-minute assessment.">
+  <style>
+    :root {
+      --bg1: #0a1022;
+      --bg2: #121837;
+      --glass: rgba(20, 28, 57, 0.55);
+      --border: rgba(156, 163, 255, 0.25);
+      --text: #eef0ff;
+      --muted: #b8bfde;
+      --accent: #8b5cf6;
+      --accent2: #38bdf8;
+      --good: #22c55e;
+      --warn: #eab308;
+      --maxw: 980px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: "Segoe UI", "Avenir Next", "Trebuchet MS", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(900px 600px at -10% -10%, rgba(139, 92, 246, 0.35), transparent 60%),
+        radial-gradient(800px 500px at 110% 0%, rgba(56, 189, 248, 0.2), transparent 60%),
+        linear-gradient(160deg, var(--bg1), var(--bg2));
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+      background: rgba(9, 14, 33, 0.7);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0.9rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      color: #f4f6ff;
+      margin-right: auto;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.9rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover { color: #fff; }
+
+    main {
+      max-width: var(--maxw);
+      margin: 1.5rem auto 3rem;
+      padding: 0 1rem;
+    }
+
+    .card {
+      position: relative;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1.25rem;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+    }
+
+    .progress-shell {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      transition: width 300ms ease;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .screen {
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      position: absolute;
+      inset: 76px 1.25rem 1.25rem;
+      transition: opacity 240ms ease, transform 240ms ease;
+      overflow: auto;
+    }
+
+    .screen.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+      position: relative;
+      inset: 0;
+      min-height: 360px;
+    }
+
+    h1, h2, h3 { margin-top: 0; }
+
+    .hero h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); }
+
+    .hero p,
+    .question-sub,
+    .result-copy,
+    .recommendation,
+    .email-copy,
+    .fine { color: var(--muted); }
+
+    .btn,
+    .option,
+    .text-input {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      font-size: 1rem;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, var(--accent), #6d5ef9);
+      color: #fff;
+      font-weight: 600;
+      padding: 0.8rem 1rem;
+      cursor: pointer;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn.secondary {
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--text);
+    }
+
+    .option-wrap { display: grid; gap: 0.7rem; }
+
+    .option {
+      text-align: left;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      padding: 0.85rem 0.9rem;
+      cursor: pointer;
+    }
+
+    .option:hover,
+    .option.selected {
+      border-color: rgba(139, 92, 246, 0.85);
+      background: rgba(139, 92, 246, 0.14);
+    }
+
+    .option small { color: var(--muted); display: block; margin-top: 0.25rem; }
+
+    .text-input {
+      margin: 0.6rem 0;
+      padding: 0.8rem;
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+    }
+
+    .text-input::placeholder { color: #c5cae6; }
+
+    .error {
+      color: #fca5a5;
+      min-height: 1.2rem;
+      font-size: 0.9rem;
+      margin: 0.3rem 0 0.5rem;
+    }
+
+    .bar-chart { display: grid; gap: 0.8rem; margin: 1rem 0 1.2rem; }
+
+    .bar-row {
+      display: grid;
+      gap: 0.4rem;
+      grid-template-columns: 115px 1fr 40px;
+      align-items: center;
+      font-size: 0.95rem;
+    }
+
+    .bar-bg {
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .bar-fill {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      transition: width 800ms cubic-bezier(.2,.8,.2,1);
+    }
+
+    .score-block {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 0.8rem;
+      margin: 0.6rem 0;
+    }
+
+    .score-tile {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 0.9rem;
+    }
+
+    .score-number { font-size: 2rem; font-weight: 800; }
+
+    .tier {
+      display: inline-block;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      background: rgba(139, 92, 246, 0.18);
+      border: 1px solid rgba(139, 92, 246, 0.7);
+      font-weight: 700;
+      margin-top: 0.25rem;
+    }
+
+    .cta {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 14px;
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      background: rgba(56, 189, 248, 0.09);
+    }
+
+    .cta a { color: #a7e6ff; font-weight: 700; }
+
+    .actions { display: flex; gap: 0.7rem; flex-wrap: wrap; }
+
+    .actions .btn { width: auto; min-width: 170px; }
+
+    .confetti {
+      position: fixed;
+      top: -10px;
+      width: 8px;
+      height: 12px;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 99;
+      animation: drop 1400ms linear forwards;
+    }
+
+    @keyframes drop {
+      0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+      100% { opacity: 0; transform: translateY(110vh) rotate(500deg); }
+    }
+
+    @media (max-width: 700px) {
+      .bar-row { grid-template-columns: 1fr; }
+      .meta { font-size: 0.85rem; }
+      .actions .btn { width: 100%; }
+    }
+
+    @media print {
+      body { background: #fff; color: #111; }
+      .nav, .progress-shell, .meta, .actions, .email-note { display: none !important; }
+      main { margin: 0; padding: 0; }
+      .card {
+        background: #fff;
+        color: #111;
+        border: 1px solid #ddd;
+        box-shadow: none;
+      }
+      .screen { display: none !important; }
+      #results.active { display: block !important; position: relative; opacity: 1; transform: none; }
+      .result-copy, .recommendation, .fine { color: #333; }
+      .tier { border-color: #666; background: #eee; color: #111; }
+      .bar-bg { border-color: #ccc; background: #f0f0f0; }
+      .bar-fill { background: #555; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" aria-label="Main">
+    <div class="nav-wrap">
+      <a class="brand" href="https://wmiddendorff.github.io" target="_blank" rel="noopener">⚡ Bridgette Enterprises</a>
+      <div class="nav-links">
+        <a href="https://wmiddendorff.github.io/agent-configurator/" target="_blank" rel="noopener">Agent Configurator</a>
+        <a href="https://wmiddendorff.github.io/prompt-library/" target="_blank" rel="noopener">Prompt Library</a>
+        <a href="https://wmiddendorff.github.io/roi-calculator/" target="_blank" rel="noopener">ROI Calculator</a>
+        <a href="https://wmiddendorff.github.io/tools-hub/" target="_blank" rel="noopener">Tools Hub</a>
+        <a href="https://wmiddendorff.github.io/bridgette-services/" target="_blank" rel="noopener">Services</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="card" aria-live="polite">
+      <div class="progress-shell" aria-label="Quiz progress">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="meta">
+        <span id="stepMeta">Welcome</span>
+        <span id="stepCount">Step 0 of 7</span>
+      </div>
+
+      <section class="screen active hero" id="landing">
+        <h1>How ready is your business for AI?</h1>
+        <p>Take this 2-minute assessment and get a personalized readiness score across Data, Process, Team, Tech, and Strategy.</p>
+        <p class="fine">No backend needed. Your email is saved locally for future follow-up tools.</p>
+        <div class="actions">
+          <button class="btn" id="startBtn">Start Assessment</button>
+        </div>
+      </section>
+
+      <section class="screen" id="question"></section>
+
+      <section class="screen" id="email">
+        <h2>Get your personalized AI Readiness Report</h2>
+        <p class="email-copy">Enter your email to unlock full results and recommendations.</p>
+        <input class="text-input" id="emailInput" type="email" placeholder="you@company.com" autocomplete="email" inputmode="email">
+        <div class="error" id="emailError"></div>
+        <div class="actions">
+          <button class="btn" id="emailSubmit">Show My Results</button>
+        </div>
+        <p class="fine email-note">Your email is stored only in your browser via localStorage.</p>
+      </section>
+
+      <section class="screen" id="results"></section>
+    </section>
+  </main>
+
+  <script>
+    const QUESTIONS = [
+      {
+        dimension: "Data",
+        title: "How organized is your data infrastructure today?",
+        options: [
+          [1, "Mostly siloed and unstructured", "Data is spread across tools with little consistency."],
+          [2, "Partially centralized", "Some shared systems exist, but quality is inconsistent."],
+          [3, "Well-governed and accessible", "Most teams can use trusted, documented data."],
+          [4, "Unified and AI-ready", "Data pipelines, quality checks, and governance are mature."]
+        ]
+      },
+      {
+        dimension: "Process",
+        title: "How standardized are your core workflows?",
+        options: [
+          [1, "Ad hoc and manual", "Execution depends on individuals and workarounds."],
+          [2, "Some repeatable processes", "A few workflows are documented and consistent."],
+          [3, "Mostly standardized", "Teams follow clear SOPs and KPIs in key operations."],
+          [4, "Highly optimized", "Processes are measurable, automated, and continuously improved."]
+        ]
+      },
+      {
+        dimension: "Team",
+        title: "How AI-literate is your team?",
+        options: [
+          [1, "Very limited familiarity", "Most employees have minimal exposure to AI tools."],
+          [2, "Early experimentation", "A small group uses AI occasionally."],
+          [3, "Broad practical usage", "Many teams use AI for day-to-day productivity."],
+          [4, "Advanced AI capability", "Teams can evaluate, pilot, and scale AI initiatives."]
+        ]
+      },
+      {
+        dimension: "Tech",
+        title: "How modern is your technology stack?",
+        options: [
+          [1, "Legacy-heavy and constrained", "Core systems limit integration and automation."],
+          [2, "Mixed environment", "Some modern tools, but interoperability is patchy."],
+          [3, "Mostly modern and integrated", "APIs and cloud tools support automation well."],
+          [4, "Flexible, composable architecture", "Infrastructure is built for rapid experimentation."]
+        ]
+      },
+      {
+        dimension: "Strategy",
+        title: "Does leadership support AI adoption strategically?",
+        options: [
+          [1, "No clear AI direction", "Leadership interest is minimal or inconsistent."],
+          [2, "Interest but limited commitment", "Some buy-in, but no cohesive roadmap yet."],
+          [3, "Defined priorities and sponsorship", "Leadership backs AI use cases with resources."],
+          [4, "AI is core to strategy", "Clear governance, investment, and long-term roadmap."]
+        ]
+      }
+    ];
+
+    const TIERS = [
+      {
+        min: 5,
+        max: 8,
+        label: "Foundation Phase",
+        rec: "Focus on clean data, process standardization, and team baseline training before complex AI projects."
+      },
+      {
+        min: 9,
+        max: 13,
+        label: "Building Phase",
+        rec: "Prioritize 1-2 high-ROI AI workflows, create internal champions, and tighten integration points."
+      },
+      {
+        min: 14,
+        max: 17,
+        label: "Growth Phase",
+        rec: "Scale proven pilots, establish governance, and align AI initiatives with measurable business outcomes."
+      },
+      {
+        min: 18,
+        max: 20,
+        label: "Advanced Phase",
+        rec: "Move into cross-functional AI transformation, deeper automation, and differentiated AI-driven offerings."
+      }
+    ];
+
+    const screens = {
+      landing: document.getElementById("landing"),
+      question: document.getElementById("question"),
+      email: document.getElementById("email"),
+      results: document.getElementById("results")
+    };
+
+    const progressFill = document.getElementById("progressFill");
+    const stepMeta = document.getElementById("stepMeta");
+    const stepCount = document.getElementById("stepCount");
+
+    const emailInput = document.getElementById("emailInput");
+    const emailError = document.getElementById("emailError");
+
+    let current = "landing";
+    let questionIndex = 0;
+    let answers = [0, 0, 0, 0, 0];
+
+    function showScreen(name) {
+      Object.values(screens).forEach((el) => el.classList.remove("active"));
+      screens[name].classList.add("active");
+      current = name;
+      updateProgress();
+    }
+
+    function updateProgress() {
+      let step = 0;
+      let label = "Welcome";
+      if (current === "landing") {
+        step = 0;
+      } else if (current === "question") {
+        step = questionIndex + 1;
+        label = QUESTIONS[questionIndex].dimension;
+      } else if (current === "email") {
+        step = 6;
+        label = "Email";
+      } else if (current === "results") {
+        step = 7;
+        label = "Results";
+      }
+      stepMeta.textContent = label;
+      stepCount.textContent = `Step ${step} of 7`;
+      progressFill.style.width = `${(step / 7) * 100}%`;
+    }
+
+    function renderQuestion(index) {
+      const q = QUESTIONS[index];
+      screens.question.innerHTML = `
+        <h2>${q.dimension}: ${q.title}</h2>
+        <p class="question-sub">Choose the option that best matches your current state.</p>
+        <div class="option-wrap">
+          ${q.options.map(([score, text, sub]) => `
+            <button class="option ${answers[index] === score ? "selected" : ""}" data-score="${score}">
+              <strong>${score}. ${text}</strong>
+              <small>${sub}</small>
+            </button>
+          `).join("")}
+        </div>
+      `;
+
+      screens.question.querySelectorAll(".option").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const score = Number(btn.dataset.score);
+          answers[index] = score;
+          if (index < QUESTIONS.length - 1) {
+            questionIndex += 1;
+            renderQuestion(questionIndex);
+          } else {
+            emailInput.value = localStorage.getItem("aiReadinessEmail") || "";
+            showScreen("email");
+          }
+        });
+      });
+
+      showScreen("question");
+    }
+
+    function tierFor(total) {
+      return TIERS.find((t) => total >= t.min && total <= t.max) || TIERS[0];
+    }
+
+    function animateCount(el, target) {
+      const duration = 1100;
+      const start = performance.now();
+      function tick(now) {
+        const pct = Math.min((now - start) / duration, 1);
+        el.textContent = Math.round(target * pct);
+        if (pct < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    function launchConfetti() {
+      const colors = ["#8b5cf6", "#38bdf8", "#22d3ee", "#a78bfa", "#f472b6"];
+      for (let i = 0; i < 40; i += 1) {
+        const dot = document.createElement("div");
+        dot.className = "confetti";
+        dot.style.left = `${Math.random() * 100}vw`;
+        dot.style.background = colors[i % colors.length];
+        dot.style.animationDelay = `${Math.random() * 250}ms`;
+        dot.style.transform = `rotate(${Math.random() * 360}deg)`;
+        document.body.appendChild(dot);
+        setTimeout(() => dot.remove(), 1600);
+      }
+    }
+
+    function shareHash() {
+      const hash = `results=${answers.join("-")}`;
+      history.replaceState(null, "", `#${hash}`);
+    }
+
+    function renderResults() {
+      const total = answers.reduce((a, b) => a + b, 0);
+      const tier = tierFor(total);
+      shareHash();
+
+      screens.results.innerHTML = `
+        <h2>Your AI Readiness Report</h2>
+        <p class="result-copy">Score breakdown by dimension and your current readiness tier.</p>
+
+        <div class="score-block">
+          <div class="score-tile">
+            <div>Overall Score</div>
+            <div class="score-number" id="overallScore">0</div>
+            <div class="fine">out of 20</div>
+          </div>
+          <div class="score-tile">
+            <div>Readiness Tier</div>
+            <div class="tier">${tier.label}</div>
+          </div>
+        </div>
+
+        <div class="bar-chart">
+          ${QUESTIONS.map((q, i) => `
+            <div class="bar-row">
+              <div>${q.dimension}</div>
+              <div class="bar-bg"><div class="bar-fill" id="bar-${i}"></div></div>
+              <div>${answers[i]}/4</div>
+            </div>
+          `).join("")}
+        </div>
+
+        <p class="recommendation"><strong>Recommendation:</strong> ${tier.rec}</p>
+
+        <div class="cta">
+          <strong>Next step:</strong> Book the <a href="https://wmiddendorff.github.io/bridgette-services/" target="_blank" rel="noopener">AI Readiness Audit ($499)</a> to get a detailed implementation roadmap.
+        </div>
+
+        <p class="fine">Need help now? Email <a href="mailto:hello@bridgetteenterprises.com">hello@bridgetteenterprises.com</a> for a free consultation.</p>
+
+        <div class="actions">
+          <button class="btn secondary" id="shareBtn">Copy Share Link</button>
+          <button class="btn secondary" id="printBtn">Print Report</button>
+          <button class="btn" id="retakeBtn">Retake Assessment</button>
+        </div>
+      `;
+
+      showScreen("results");
+
+      const scoreEl = document.getElementById("overallScore");
+      animateCount(scoreEl, total);
+
+      answers.forEach((score, i) => {
+        const bar = document.getElementById(`bar-${i}`);
+        setTimeout(() => {
+          bar.style.width = `${(score / 4) * 100}%`;
+        }, 130 + (i * 120));
+      });
+
+      launchConfetti();
+
+      document.getElementById("retakeBtn").addEventListener("click", () => {
+        answers = [0, 0, 0, 0, 0];
+        questionIndex = 0;
+        history.replaceState(null, "", location.pathname + location.search);
+        showScreen("landing");
+      });
+
+      document.getElementById("printBtn").addEventListener("click", () => window.print());
+
+      document.getElementById("shareBtn").addEventListener("click", async () => {
+        const url = location.href;
+        try {
+          await navigator.clipboard.writeText(url);
+          const btn = document.getElementById("shareBtn");
+          btn.textContent = "Link Copied";
+          setTimeout(() => { btn.textContent = "Copy Share Link"; }, 1300);
+        } catch {
+          alert("Copy failed. You can copy the URL from your address bar.");
+        }
+      });
+    }
+
+    function parseHashResults() {
+      const hash = location.hash.replace("#", "");
+      if (!hash.startsWith("results=")) return false;
+      const vals = hash.replace("results=", "").split("-").map(Number);
+      if (vals.length !== 5 || vals.some((n) => !Number.isInteger(n) || n < 1 || n > 4)) return false;
+      answers = vals;
+      renderResults();
+      return true;
+    }
+
+    document.getElementById("startBtn").addEventListener("click", () => {
+      questionIndex = 0;
+      renderQuestion(questionIndex);
+    });
+
+    document.getElementById("emailSubmit").addEventListener("click", () => {
+      const email = emailInput.value.trim();
+      const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if (!isValid) {
+        emailError.textContent = "Enter a valid email address to view results.";
+        return;
+      }
+      emailError.textContent = "";
+      localStorage.setItem("aiReadinessEmail", email);
+      renderResults();
+    });
+
+    window.addEventListener("hashchange", () => {
+      if (!parseHashResults() && current === "results") {
+        showScreen("landing");
+      }
+    });
+
+    updateProgress();
+    parseHashResults();
+  </script>
+
+  <script data-goatcounter="https://bridgette-enterprises.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
